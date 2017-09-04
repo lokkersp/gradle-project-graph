@@ -1,4 +1,6 @@
 package com.github.lokkersp
 
-class GraphNode {
+class GraphNode<R> {
+    R id
+    List<GraphAttribute> attributes
 }

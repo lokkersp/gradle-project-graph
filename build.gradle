@@ -41,3 +41,12 @@ compileKotlin {
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
+
+gradlePlugin {
+    plugins {
+        graphPlugin {
+            id = "project-graph"
+            id = "com.github.lokkersp.GraphPlugin"
+        }
+    }
+}

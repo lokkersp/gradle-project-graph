@@ -1,4 +1,6 @@
 package com.github.lokkersp
 
-class GraphEdge {
+class GraphEdge<T> {
+    T source
+    T destination
 }

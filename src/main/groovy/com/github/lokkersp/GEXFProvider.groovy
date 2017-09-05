@@ -1,6 +1,6 @@
 package com.github.lokkersp
 
-class GEXF {
+class GEXFProvider {
     String header
     String metadata
     Graph g

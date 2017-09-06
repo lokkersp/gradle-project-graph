@@ -1,5 +1,7 @@
 package com.github.lokkersp
 
+import com.github.lokkersp.graph.Graph
+import com.github.lokkersp.graph.GraphNode
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.tasks.Input
@@ -28,6 +30,10 @@ class GraphTask extends DefaultTask {
         while (top?.subprojects?.size() == 0) {
             top = project.parent
         }
-        project
+        g = new Graph();
+        top.subprojects.each { s->
+            g.addNode(new GraphNode<String>())
+        }
+        project.afterEvaluate(this.&afterEvaluate())
     }
 }

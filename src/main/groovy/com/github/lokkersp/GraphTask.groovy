@@ -3,6 +3,7 @@ package com.github.lokkersp
 import com.github.lokkersp.graph.Graph
 import com.github.lokkersp.graph.GraphEdge
 import com.github.lokkersp.graph.GraphNode
+import com.github.lokkersp.providers.GEXFProvider
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.artifacts.ProjectDependency
@@ -41,8 +42,10 @@ class GraphTask extends DefaultTask {
             ds.each {d ->
                 g.addEdge(new GraphEdge<String>(s.name,d.dependencyProject.name))
             }
-
+            //println g.nodes
+            def GEXFRepresentantion = new GEXFProvider(g)
+            println GEXFRepresentantion.serialize()
         }
-        project.afterEvaluate(this.&afterEvaluate())
+        //project.afterEvaluate(this.&afterEvaluate())
     }
 }

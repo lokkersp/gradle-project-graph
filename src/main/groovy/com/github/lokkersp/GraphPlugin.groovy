@@ -7,7 +7,7 @@ import org.gradle.api.Task
 class GraphPlugin implements Plugin<Project>{
     @Override
     void apply(Project project) {
-        Task graph = project.task('graph',type:GraphTask)
+        def graph = project.tasks.create('graph',GraphTask)
     }
 
     static void afterEvaluate(){

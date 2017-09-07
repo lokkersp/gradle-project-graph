@@ -17,10 +17,10 @@ class Graph<T extends Provider,R> {
      * @return
      */
     static def updateMapping(R ID, Map<R,Integer> map, Collection h) {
-        if(h.size() == 0) {
+        if(h.empty) {
             map.put(ID, 0)
         } else {
-            map.put(ID, map.values().last()++)
+            map.put(ID,h.size())
         }
     }
     /**
@@ -41,8 +41,9 @@ class Graph<T extends Provider,R> {
      * @return true if node was added
      */
     boolean addEdge(GraphEdge<R> e) {
-            def passedID =(edges.last().id)++
-            e.id = (edges.size() == 0)?0:passedID
+            def passedID = edges.size()
+            if( edges.empty) {passedID = 0}
+            e.id = (edges.empty)?0:passedID
             edges.add(e)
             return edges.last().id == passedID
     }

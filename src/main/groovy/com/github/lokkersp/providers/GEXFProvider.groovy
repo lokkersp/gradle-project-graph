@@ -4,6 +4,7 @@ import com.github.lokkersp.graph.Graph
 import sun.reflect.generics.reflectiveObjects.NotImplementedException
 
 class GEXFProvider implements Provider{
+    Graph graph
     static final String GEXF_HEADER = """<?xml version="1.0" encoding="UTF-8"?>
                                          <gexf xmlns="http://www.gexf.net/1.2draft" 
                                                xmlns:xsi=http://www.w3.org/2001/XMLSchema-instance" 
@@ -24,6 +25,14 @@ class GEXFProvider implements Provider{
     GEXFProvider(){
 
     }
+
+    GEXFProvider(Graph graph) {
+        this.graph = graph
+        creator = "Built by ${System.getenv("USERNAME")} on the ${System.getenv("COMPUTERNAME")}"
+        description = boilerplateDescription
+        keywords = "auto-generated, gradle, mixed"
+    }
+
     GEXFProvider(String dateFormat){
         DATE_FORMAT = dateFormat || dateFormat?.empty ?: DATE_FORMAT
         creator = "Built by ${System.getenv("USERNAME")} on the ${System.getenv("COMPUTERNAME")}"
@@ -45,7 +54,12 @@ class GEXFProvider implements Provider{
         return """${GEXF_HEADER}
                   ${metaBuild()}
                   <graph defaultedgetype="${DEFAULT_EDGE_TYPE}">
-                    
+                     <nodes>
+                        ${graph.nodes.each {"<node id=\"${graph.nodesToID.get(it.id)}\" label=\"${it.id}\"/>"}.join('\n')}
+                     </nodes>
+                     <edges>
+                        ${graph.edges.each {"<edge id=\"${it.id}\" source=\"${it.source}\" target=\"${it.destination}\"/>"}.join('\n')}
+                     </edges>
                   </graph>
                   ${GEXF_END}
                """

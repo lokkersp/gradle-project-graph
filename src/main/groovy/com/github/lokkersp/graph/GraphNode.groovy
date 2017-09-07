@@ -16,4 +16,8 @@ class GraphNode<R> {
         this.attributes = attributes
     }
 
+    @Override
+    String toString() {
+        return id.toString()
+    }
 }

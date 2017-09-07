@@ -1,4 +1,4 @@
-group 'com.noctus-labs'
+group 'com.github.lokkersp'
 version '1.0'
 
 buildscript {

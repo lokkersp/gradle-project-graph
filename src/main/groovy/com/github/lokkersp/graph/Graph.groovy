@@ -8,12 +8,19 @@ class Graph<T extends Provider,R> {
     Set<GraphNode> nodes = new HashSet<>()
     List<GraphEdge> edges = []
     Map<R,Integer> nodesToID = new HashMap<>()
-
-    def updateMapping(R ID) {
-        if(nodes.size() == 0) {
-            nodesToID.put(ID, 0)
+    Map<R,Integer> edgesToID = new HashMap<>()
+    /**
+     *
+     * @param ID
+     * @param map
+     * @param h
+     * @return
+     */
+    static def updateMapping(R ID, Map<R,Integer> map, Collection h) {
+        if(h.size() == 0) {
+            map.put(ID, 0)
         } else {
-            nodesToID.put(ID, nodesToID.values().last()++)
+            map.put(ID, map.values().last()++)
         }
     }
     /**
@@ -25,8 +32,8 @@ class Graph<T extends Provider,R> {
      */
     boolean addNode(GraphNode<R> node) {
             nodes.add(node)
-            updateMapping(node.id)
-        return checkNodeObjectExist(node.id)
+            updateMapping(node.id,nodesToID,nodes)
+        return checkKeyObjectExist(node.id,nodesToID)
     }
     /**
      * you should create node every time you call method
@@ -34,18 +41,17 @@ class Graph<T extends Provider,R> {
      * @return true if node was added
      */
     boolean addEdge(GraphEdge<R> e) {
-        if (checkNodeObjectExist(e.source) && checkNodeObjectExist(e.destination)) {
+            def passedID =(edges.last().id)++
+            e.id = (edges.size() == 0)?0:passedID
             edges.add(e)
-            return true
-        }
-        false
+            return edges.last().id == passedID
     }
 
     private boolean removeNode(R id){
 
     }
-    boolean checkNodeObjectExist(R id) {
-        return nodesToID.get(id, -1) != -1
+    static boolean checkKeyObjectExist(R id,Map map) {
+        return map.get(id, -1) != -1
     }
 
     Graph(T provider) {

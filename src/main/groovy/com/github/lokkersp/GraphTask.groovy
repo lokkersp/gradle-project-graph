@@ -1,6 +1,7 @@
 package com.github.lokkersp
 
 import com.github.lokkersp.graph.Graph
+import com.github.lokkersp.graph.GraphEdge
 import com.github.lokkersp.graph.GraphNode
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
@@ -32,7 +33,10 @@ class GraphTask extends DefaultTask {
         }
         g = new Graph();
         top.subprojects.each { s->
-            g.addNode(new GraphNode<String>())
+            g.addNode(new GraphNode<String>(s.name))
+        }
+        top.subprojects.each {s->
+            g.addEdge(new GraphEdge<String>())
         }
         project.afterEvaluate(this.&afterEvaluate())
     }

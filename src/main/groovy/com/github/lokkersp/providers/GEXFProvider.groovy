@@ -1,6 +1,8 @@
 package com.github.lokkersp.providers
 
 import com.github.lokkersp.graph.Graph
+import com.github.lokkersp.graph.GraphEdge
+import com.github.lokkersp.graph.GraphNode
 import sun.reflect.generics.reflectiveObjects.NotImplementedException
 
 class GEXFProvider implements Provider{
@@ -46,22 +48,26 @@ class GEXFProvider implements Provider{
                 "   <keywords>$description</keywords>\n" +
                 " </meta>\n"
     }
-    def init(){
 
-    }
     @Override
     String serialize() {
-        return """${GEXF_HEADER}
-                  ${metaBuild()}
-                  <graph defaultedgetype="${DEFAULT_EDGE_TYPE}">
-                     <nodes>
-                        ${graph.nodes.each {"<node id=\"${graph.nodesToID.get(it.id)}\" label=\"${it.id}\"/>"}.join('\n')}
-                     </nodes>
-                     <edges>
-                        ${graph.edges.each {"<edge id=\"${it.id}\" source=\"${it.source}\" target=\"${it.destination}\"/>"}.join('\n')}
-                     </edges>
-                  </graph>
-                  ${GEXF_END}
-               """
+        def edgesString = graph.edges.each {GraphEdge<String>e->"\t<edge id=\"${e.id}\" source=\"${e.source}\" target=\"${e.destination}\"/>"}.join('\n')
+        def nodesString =  graph.nodes.each {GraphNode<String>  node->"\t<node id=\"${graph.nodesToID.get(node.id) as String}\" label=\"${node.id}\"/>"}.join('\n')
+        String data =
+                  "$GEXF_HEADER \n${metaBuild()}" +
+                  "<graph defaultedgetype=\"${DEFAULT_EDGE_TYPE}\">\n"+
+                     "<nodes>\n"+
+                        "\t${nodesString}"
+                     "\n</nodes>\n"
+                     "<edges>\n"
+                        "\t${edgesString}"
+                     "\n</edges>\n"
+                      "\n</graph>\n"
+                  "${GEXF_END}"
+        return data
+
     }
 }
+
+
+

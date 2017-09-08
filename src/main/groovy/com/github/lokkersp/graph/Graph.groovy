@@ -2,8 +2,7 @@ package com.github.lokkersp.graph
 
 import com.github.lokkersp.providers.Provider
 
-class Graph<T extends Provider,R> {
-    T provider // one of registered providers
+class Graph<R> {
 
     Set<GraphNode> nodes = new HashSet<>()
     List<GraphEdge> edges = []
@@ -55,9 +54,6 @@ class Graph<T extends Provider,R> {
         return map.get(id, -1) != -1
     }
 
-    Graph(T provider) {
-        this.provider = provider
-    }
     Graph(){
 
     }
